@@ -1,4 +1,4 @@
-module Yesod.Holumbus
+module Yesod.Hunt
 ( module Yesod.Hunt.SubSite
 , module Yesod.Hunt.Routes
 )
