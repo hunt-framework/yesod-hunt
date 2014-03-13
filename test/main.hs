@@ -11,13 +11,13 @@ import           Yesod.Hunt
 
 -- main application state
 data App = App
-    { index :: Hunt
+    { index :: HuntS
     }
 
 -- main application routes
 mkYesod "App" [parseRoutes|
 / HomeR GET
-/hunt/ HuntR Hunt index
+/hunt/ HuntSR HuntS index
 |]
 
 -- typeclass the main application implements
@@ -27,7 +27,7 @@ instance YesodHunt App
 -- application start
 main :: IO ()
 main = do
-    app <- App <$> initHunt
+    app <- App <$> initHuntS
     warp 3000 app
 
 -- kind of JS client library for holumbus

@@ -31,19 +31,18 @@ instance (ToJSON r) => ToJSON (JsonResponse r) where
 
 -- | A subsite needs to be an instance of YesodSubDispatch, which states how to
 -- dispatch. By using constraints, we can make requirements of our master site.
-instance YesodHunt master => YesodSubDispatch Hunt (HandlerT master IO) where
-    yesodSubDispatch = $(mkYesodSubDispatch resourcesHunt)
+instance YesodHunt master => YesodSubDispatch HuntS (HandlerT master IO) where
+    yesodSubDispatch = $(mkYesodSubDispatch resourcesHuntS)
 
 
 type HuntHandler a = forall master. YesodHunt master
-                  => HandlerT Hunt (HandlerT master IO) a
+                  => HandlerT HuntS (HandlerT master IO) a
 
 -- | helper that runs command within holumbus index interpreter
 runHunt :: Command -> HuntHandler (Either CmdError CmdResult)
 runHunt cmd = do
   env <- getHunt <$> getYesod
-  res <- liftIO $ Hol.runCmd env cmd
-  return res
+  liftIO $ Hol.runCmd env cmd
 
 -- | helper to run simple commands without results
 --runCmd :: Command -> HuntHandler Value
